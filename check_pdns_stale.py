@@ -22,7 +22,7 @@
 # Copyright (c) 2022 Claudio Kuenzler www.claudiokuenzler.com
 #
 # History:
-# 20220310: Development
+# 20220310: Development and public release as v0.1
 ######################################################################
 # version
 version='0.1'
