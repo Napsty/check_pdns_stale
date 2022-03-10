@@ -14,6 +14,8 @@ This monitoring plugin helps to identify these stale zones/domains.
 
 
 ## Requirements
+
+### Python3 modules
 Requires the following Python3 modules:
 - mysql.connector
 - dnspython
@@ -28,4 +30,11 @@ Or by using prepared Python3 packages in your OS. Example for Ubuntu:
 
 ```
 apt-get install python3-mysql.connector python3-dnspython
+```
+
+### MySQL privileges
+The MySQL user you use for the script needs SELECT privileges on the table "domains" in the "powerdns" database. Assuming your PowerDNS MySQL database is named "powerdns", you would use the following `GRANT` query:
+
+```
+mysql> GRANT SELECT ON powerdns.domains TO 'monitoring'@'localhost' IDENTIFIED BY 'secret';
 ```
