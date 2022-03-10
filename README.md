@@ -8,7 +8,7 @@ Note: Check out https://www.claudiokuenzler.com/blog/844/powerdns-master-slave-d
 
 This works fine for zone changes and for newly created domains in the Primary; new domains are automatically created on the Secondary server(s) when `autosecondary=yes` is configured. 
 
-There is one downside though: Zones (domains) deleted on the Primary are not replicated to the Secondary server(s). The Secondary server(s) still have the deleted domains and servers as authoritative server. This is what we call a "stale domain": The domain was deleted on the Primary but the Secondary server(s) don't know about it.
+There is one downside though: Zones (domains) deleted on the Primary are not replicated to the Secondary server(s). The Secondary server(s) still have the deleted domains and serves the (should be deleted) domains as authoritative server. This is what we call a "stale domain": The domain was deleted on the Primary but the Secondary server(s) don't know about it.
 
 This monitoring plugin helps to identify these stale zones/domains.
 
