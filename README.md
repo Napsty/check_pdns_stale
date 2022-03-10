@@ -1,5 +1,5 @@
 # check_pdns_stale
-Monitoring Plugin to check for stale domains on PowerDNS secondary servers.
+Monitoring Plugin to check for stale domains on PowerDNS secondary servers. The plugin should be run on the PowerDNS secondary server or at least connect to the MySQL database of the secondary.
 
 ## Purpose
 When running PowerDNS in a Primary-Secondary (old names: Master-Slave) setup, the DNS replication happens over the DNS protocol. 
@@ -37,4 +37,22 @@ The MySQL user you use for the script needs SELECT privileges on the table "doma
 
 ```
 mysql> GRANT SELECT ON powerdns.domains TO 'monitoring'@'localhost' IDENTIFIED BY 'secret';
+```
+
+## Usage
+`-H / --dbhost` => MySQL Host
+
+`-u / --dbuser` => MySQL Username
+
+`-p / --dbpass` => MySQL Password
+
+`-P / --primary` => PowerDNS Primary (IP address or FQDN address)
+
+`--debug` => Shows each domain in the output
+
+Example usage:
+
+```
+# python3 check_pdns_stale.py -H localhost -u monitoring -p secret -P ns1.example.com
+PDNS SECONDARY WARNING: Stale domains: ['example1.com', 'example15.com', 'example999.com']
 ```
