@@ -119,7 +119,7 @@ warncount = len(warndomains)
 if warncount > 0:
     output = "PDNS SECONDARY WARNING: Stale zones: %a" % warndomains
     perfdata = "|total_zones=%i;;;; stale_zones=%i;;;;" % (domaincount, warncount)
-    systemexit(2, output, perfdata)
+    systemexit(1, output, perfdata)
 else:
     output = "PDNS SECONDARY OK: No stale zones on this secondary server"
     perfdata = "|total_zones=%i;;;; stale_zones=%i;;;;" % (domaincount, warncount)
