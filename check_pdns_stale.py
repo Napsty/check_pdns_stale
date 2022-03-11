@@ -24,9 +24,10 @@
 # History:
 # 20220310: Development and public release as v0.1
 # 20220311: Fix error handling in MySQL connection
+# 20220311: Improve plugin exit, add performance data
 ######################################################################
 # version
-version='0.1.1'
+version='0.2.0'
 
 # imports
 import argparse
@@ -70,19 +71,23 @@ if (args.primary):
 
 if (args.debug):
     debug=True
-
+#################################################################################
+# Functions
+def systemexit(exit_status, output, perfdata):
+    print("%s %s" % (output, perfdata))
+    sys.exit(exit_status)
 #################################################################################
 # Do the check
 
 try:
     cnx = mysql.connector.connect(user=dbuser, password=dbpass, host=dbhost, database=dbname)
 except mysql.connector.Error as err:
-    print("PDNS SECONDARY CRITICAL: {0}".format(err))
-    sys.exit(2)
+    systemexit(2, "PDNS SECONDARY CRITICAL: {0}".format(err), "")
 
 cursor = cnx.cursor()
 cursor.execute("SELECT name FROM %s.domains" % dbname)
 result = cursor.fetchall()
+domaincount = len(result)
 
 warndomains = []
 
@@ -94,7 +99,7 @@ resolver.nameservers = [socket.gethostbyname(primary)]
 for domain in result:
     domain = domain[0]
     if debug:
-      print("Handling domain {}".format(domain))
+      print("Handling zone {}".format(domain))
     try:
         soaresult = resolver.query(domain, 'SOA')
     except:
@@ -109,12 +114,15 @@ for domain in result:
 cursor.close()
 cnx.close()
 
-if len(warndomains) > 0:
-    print("PDNS SECONDARY WARNING: Stale domains: %a" % warndomains)
-    sys.exit(1)
+warncount = len(warndomains)
+
+if warncount > 0:
+    output = "PDNS SECONDARY WARNING: Stale zones: %a" % warndomains
+    perfdata = "|total_zones=%i;;;; stale_zones=%i;;;;" % (domaincount, warncount)
+    systemexit(2, output, perfdata)
 else:
-    print("PDNS SECONDARY OK: No stale domains on this secondary server")
-    sys.exit(0)
+    output = "PDNS SECONDARY OK: No stale zones on this secondary server"
+    perfdata = "|total_zones=%i;;;; stale_zones=%i;;;;" % (domaincount, warncount)
+    systemexit(0, output, perfdata)
 #################################################################################
-print("PDNS SECONDARY UNKNOWN: Should never reach that part")
-sys.exit(3)
+systemexit(3, "PDNS SECONDARY UNKNOWN: Should never reach that part", "")
