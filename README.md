@@ -3,6 +3,9 @@ Monitoring Plugin to check for stale domains on PowerDNS secondary servers.
 
 **The plugin should be run on the PowerDNS secondary server or at least connect to the MySQL database of the secondary.**
 
+## Introduction
+An introduction of this plugin was published on https://www.claudiokuenzler.com/blog/1192/how-to-monitor-stale-zones-domains-powerdns-secondary-slave-servers.
+
 ## Purpose
 When running PowerDNS in a Primary-Secondary (old names: Master-Slave) setup, the DNS replication happens over the DNS protocol. 
 
