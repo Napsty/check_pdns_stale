@@ -117,7 +117,7 @@ cnx.close()
 warncount = len(warndomains)
 
 if warncount > 0:
-    output = "PDNS SECONDARY WARNING: Stale zones: %a" % warndomains
+    output = "PDNS SECONDARY WARNING: %i stale zones: %a" % (warncount, warndomains)
     perfdata = "|total_zones=%i;;;; stale_zones=%i;;;;" % (domaincount, warncount)
     systemexit(1, output, perfdata)
 else:
