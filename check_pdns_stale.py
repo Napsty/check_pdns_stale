@@ -23,9 +23,10 @@
 #
 # History:
 # 20220310: Development
+# 20220311: Fix error handling in MySQL connection
 ######################################################################
 # version
-version='0.1'
+version='0.1.1'
 
 # imports
 import argparse
@@ -76,7 +77,8 @@ if (args.debug):
 try:
     cnx = mysql.connector.connect(user=dbuser, password=dbpass, host=dbhost, database=dbname)
 except mysql.connector.Error as err:
-    systemexit(2, "PDNS SECONDARY CRITICAL: {0}".format(err), "")
+    print("PDNS SECONDARY CRITICAL: {0}".format(err))
+    sys.exit(2)
 
 cursor = cnx.cursor()
 cursor.execute("SELECT name FROM %s.domains" % dbname)
