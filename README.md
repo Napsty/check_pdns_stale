@@ -51,6 +51,8 @@ mysql> GRANT SELECT ON powerdns.domains TO 'monitoring'@'localhost' IDENTIFIED B
 
 `-p / --dbpass` => MySQL Password
 
+`-d / --dbname` => MySQL Database of PowerDNS (default: powerdns)
+
 `-P / --primary` => PowerDNS Primary (IP address or FQDN address)
 
 `--debug` => Shows each domain in the output
